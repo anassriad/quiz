@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أسئلة في الثقافة العامة (حراس األمن 2024)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        #quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #question-container {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        #options-container {
+            margin-bottom: 20px;
+        }
+        .option {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #e0e0e0;
+        }
+        #answer-container {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>أسئلة في الثقافة العامة (حراس األمن 2024)</h1>
+        <div id="question-container"></div>
+        <div id="options-container"></div>
+        <div id="answer-container"></div>
+        <div id="navigation">
+            <button id="prev-btn">السابق</button>
+            <button id="speak-btn">اسمع السؤال</button>
+            <button id="auto-btn">بدء التشغيل التلقائي</button>
+            <button id="next-btn">التالي</button>
+        </div>
+    </div>
+    <script>
+        const quizData = [
+    {
+        question: "ما هو العظم الذي لا يتحلل بعد موت االنسان",
+        options: ["عجب الذنب", "العمود الفقري", "الجمجمة", "جميع االجابات خاطئة"],
+        answer: "عجب الذنب"
+    },
+    {
+        question: "والي بنك المغرب هو السيد",
+        options: ["عبد اللطيف الجواهري", "عبد اللطيف وهبي", "عزيز أخنوش", "جميع اإلجابات خاطئة"],
+        answer: "عبد اللطيف الجواهري"
+    },
+    {
+        question: "الطائر الذي ال تصدر رفرفته صوتا هو",
+        options: ["البوم", "الحمام", "النسر", "جميع االجابات خاطئة"],
+        answer: "البوم"
+    },
+    {
+        question: "اليوم العالمي للعلم االمازيغي هو",
+        options: ["30غشت", "30شتنبر", "30نونبر", "30دجنبر"],
+        answer: "30غشت"
+    },
+    {
+        question: "النهر المقدس لدى الهندوس هو",
+        options: ["نهر كالي بين", "نهر جاكرتا", "نهر دلهي", "جميع اإلجابات خاطئة"],
+        answer: "نهر كالي بين"
+    },
+    {
+        question: "يقصد بالنمو الديموغرافي",
+        options: ["تزايد عدد الكائنات الحية", "تزايدعدد السكان", "إنخفاضالوفيات", "ارتفاع الوالدات"],
+        answer: "تزايدعدد السكان"
+    },
+    {
+        question: "موسوعة االرقام القياسية هي موسوعة",
+        options: ["فيليبس", "جينيس", "جيمس", "جميعاإلجابات خاطئة"],
+        answer: "جينيس"
+    },
+    {
+        question: "توجد حديقة سنترال بارك في دولة",
+        options: ["فرنسا", "الواليات المتحدة األمريكية", "اليونان", "الدنمارك"],
+        answer: "الواليات المتحدة األمريكية"
+    },
+    {
+        question: "مالك منصةX(تويتر سابقا) هو",
+        options: ["مارك زكربيرغ", "ايلون ماسك", "بيل جيتس", "جميع اإلجابات خاطئة"],
+        answer: "ايلون ماسك"
+    },
+    {
+        question: "يسمى بطائر الحرائق هو",
+        options: ["طائر الحسون", "طائر الحدأة", "طائر الخفاش", "جميع اإلجابات خاطئة"],
+        answer: "طائر الحدأة"
+    },
+    {
+        question: "ما اسم قريتي لوط",
+        options: ["سدوم", "عمورة", "البصرة", "جميع االجابات خاطئة"],
+        answer: "سدوم"
+    },
+    {
+        question: "لقب بالشيطان الأعرج",
+        options: ["نابليون بونابارت", "شارل موريش دوتاليران", "نيكوال ميكيافيلي", "جميع االجابات خاطئة"],
+        answer: "شارل موريش دوتاليران"
+    },
+    {
+        question: "أقصر فترة حكم في التاريخ إستمرت حوال20  دقيقة كانت من نصيب",
+        options: ["الملك لويس السادسعشر", "الملك لويس الثامنعشر", "الملك لويس التاسع عشر", "جميع االجابات خاطئة"],
+        answer: "الملك لويس التاسع عشر"
+    },
+    {
+        question: "كلمة (مهرجان) هي كلمة",
+        options: ["عربية", "عبرية", "فارسية", "جميع االجابات خاطئة"],
+        answer: "فارسية"
+    },
+    {
+        question: "توجد بحيرات الاسفلت بجمهورية",
+        options: ["ترينيدادوتوباغو", "هاواي", "غوايانا", "جميع االجابات خاطئة"],
+        answer: "ترينيدادوتوباغو"
+    },
+    {
+        question: "الاسفلت هو",
+        options: ["الزيت", "الزفت", "الكلور", "جميع االجابات خاطئة"],
+        answer: "الزفت"
+    },
+    {
+        question: "مدينة الذهب هي",
+        options: ["كامباال", "جوهانسبورغ", "نيويورك", "باريس"],
+        answer: "جوهانسبورغ"
+    },
+    {
+        question: "الصحابي الجليل الذي قتله الجن هو",
+        options: ["سعد بن معاذ", "سعد بن ابي وقاص", "سعد بن عبادة", "جميع االجابات خاطئة"],
+        answer: "سعد بن معاذ"
+    },
+    {
+        question: "أميرالشعراء في العصر الجاهلي هو",
+        options: ["المتنبي", "إمرؤ القيس", "قيس بن الملوح", "جميع االجابات خاطئة"],
+        answer: "إمرؤ القيس"
+    },
+    {
+        question: "مؤلف كتاب \"األدب المغربي الحديث\"هو",
+        options: ["عبد هللا العروي", "أحمد المديني", "أحمد كيليطو", "جميع االجابات خاطئة"],
+        answer: "أحمد المديني"
+    },
+    {
+        question: "مؤلف كتاب كفاحي هو",
+        options: ["أدولف هتلر", "سبينوزا", "طوماس هوبز", "عبد هللاالعروي"],
+        answer: "أدولف هتلر"
+    },
+    {
+        question: "ألف كتاب كفاحي في",
+        options: ["السويد", "فرنسا", "ألمانيا", "جميع االجابات خاطئة"],
+        answer: "ألمانيا"
+    },
+    {
+        question: "ما هي الدولة التي تحتوي على أكبر عدد من الجزر",
+        options: ["السويد", "كندا", "أندونيسيا", "جميع االجابات خاطئة"],
+        answer: "أندونيسيا"
+    },
+    {
+        question: "القارة الوحيدة التي ال تحتوي على صحراءهي",
+        options: ["أفريقيا", "أسيا", "أوروبا", "أمريكا"],
+        answer: "أوروبا"
+    },
+    {
+        question: "البلدالذي يُعرف باسم \"بلد األلف بحيرة\"هو",
+        options: ["السويد", "هولندا", "الدنمارك", "فنلندا"],
+        answer: "فنلندا"
+    },
+    {
+        question: "سلسلة جبال األنديز تقع بـ",
+        options: ["أمريكا الجنوبية", "أمريكا الشمالية", "ألوروبا", "أسيا"],
+        answer: "أمريكا الجنوبية"
+    },
+    {
+        question: "تسمى بعروس القرآن هي سورة",
+        options: ["الواقعة", "اإلخالص", "الرحمن", "القلم"],
+        answer: "الرحمن"
+    },
+    {
+        question: "ثاني أطول نهر في العالم بعد نهر النيل هو",
+        options: ["نهر النيل", "نهر األمازون", "نهر السين", "نهر درعة"],
+        answer: "نهر األمازون"
+    },
+    {
+        question: "أعلى قمةجبليةفي إفريقياهي قمة جبل",
+        options: ["كيليمانجاروبتنزانيا", "توبقال بالمغرب", "بايتان بكينيا", "جميع اإلجابات خاطئة"],
+        answer: "كيليمانجاروبتنزانيا"
+    },
+    {
+        question: "الدولة التي تُعتبر أصغر دولة في إفريقيا من حيث المساحةهي",
+        options: ["مدغشقر", "جيبوتي", "سيشل", "جميعاالجابات خاطئة"],
+        answer: "سيشل"
+    },
+    {
+        question: "أكبر بحيرة في إفريقياهي",
+        options: ["بحيرة ويوان", "بحيرة فيكتوريا", "بحيرة باماكو", "جميع االجابات خاطئة"],
+        answer: "بحيرة فيكتوريا"
+    },
+    {
+        question: "عاصمة كوريا الجنوبية هي",
+        options: ["طوكيو", "بيكين", "سيول", "جميع االجابات خاطئة"],
+        answer: "سيول"
+    },
+    {
+        question: "عاصمة تايالند",
+        options: ["داكا", "بانكوك", "هانوي", "جميع االجابات خاطئة"],
+        answer: "بانكوك"
+    },
+    {
+        question: "عملة الكيانالصهيوني اإلسرائيلي هي",
+        options: ["الدوالر", "األورو", "الشيكل", "جميع االجابات خاطئة"],
+        answer: "الشيكل"
+    },
+    {
+        question: "عملة فلسطين هي",
+        options: ["الريال الفلسطيني", "الجنيه الفلسطيني", "الدرهم الفلسطيني", "جميع االجابات خاطئة"],
+        answer: "جميع االجابات خاطئة"
+    },
+    {
+        question: "يقع مضيق هرمز في قارة",
+        options: ["اسيا", "افريقيا", "اوروبا", "جميع االجابات خاطئة"],
+        answer: "اسيا"
+    },
+    {
+        question: "كانت تسمىمدينة األلفمئذنةهي",
+        options: ["بغداد", "القاهرة", "فاس", "دكار"],
+        answer: "القاهرة"
+    },
+    {
+        question: "السُّورة التي تعد ُّ أم ُّ الكتاب",
+        options: ["الفاتحة", "البقرة", "الناس", "النساء"],
+        answer: "الفاتحة"
+    },
+    {
+        question: "مهنة النَّبي-صلِّى هللا عليه وسلِّم-قبل البعثة",
+        options: ["الخياطة", "رعي الغنم", "النجارة", "جميع االجابات خاطئة"],
+        answer: "رعي الغنم"
+    },
+    {
+        question: "اسم الدَّابة التي ركبها رسول هللا-عليهالسالم-في حادثة اإلسراء والمعراجهي",
+        options: ["االبل", "البراق", "البرق", "جميع االجابات خاطئة"],
+        answer: "البراق"
+    }
+];
+            // ... (include all 40 questions here)
+        
+
+        let currentQuestion = 0;
+        let isAutoPlaying = false;
+        let autoPlayInterval;
+
+        const questionContainer = document.getElementById('question-container');
+        const optionsContainer = document.getElementById('options-container');
+        const answerContainer = document.getElementById('answer-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const speakBtn = document.getElementById('speak-btn');
+        const autoBtn = document.getElementById('auto-btn');
+
+        function displayQuestion() {
+            const question = quizData[currentQuestion];
+            questionContainer.innerHTML = `<h2>${currentQuestion + 1}. ${question.question}</h2>`;
+            optionsContainer.innerHTML = question.options.map((option, index) => 
+                `<div class="option">${String.fromCharCode(65 + index)}. ${option}</div>`
+            ).join('');
+            answerContainer.innerHTML = `<p>الإجابة: ${question.answer}</p>`;
+            updateButtonStates();
+        }
+
+        function updateButtonStates() {
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.disabled = currentQuestion === quizData.length - 1;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function speakQuestion() {
+            const utterance = new SpeechSynthesisUtterance(quizData[currentQuestion].question);
+            utterance.lang = 'ar';
+            speechSynthesis.speak(utterance);
+        }
+
+        function toggleAutoPlay() {
+            isAutoPlaying = !isAutoPlaying;
+            if (isAutoPlaying) {
+                autoBtn.textContent = 'إيقاف التشغيل التلقائي';
+                autoPlayInterval = setInterval(nextQuestion, 10000); // Change question every 10 seconds
+            } else {
+                autoBtn.textContent = 'بدء التشغيل التلقائي';
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        prevBtn.addEventListener('click', prevQuestion);
+        nextBtn.addEventListener('click', nextQuestion);
+        speakBtn.addEventListener('click', speakQuestion);
+        autoBtn.addEventListener('click', toggleAutoPlay);
+
+        // Initialize the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>
